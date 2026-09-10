@@ -56,7 +56,7 @@ Note: Chrome doesn't give extensions an API to resize the side panel's docked wi
 
 Each **Start**, **Pause**, and **Stop** writes a row using the same clock shown in the tray.
 
-A hosted step-by-step guide (with a one-click download of `Code.gs`) lives at the GitHub Pages site for this repo — see [`docs/index.html`](docs/index.html), published at `https://<your-github-username>.github.io/TaskMate/` once Pages is enabled (Settings → Pages → Deploy from branch → `main` / `docs`). It's also linked from the ⚙ settings panel inside the extension — update the `SETUP_GUIDE_URL` constant in `src/sidepanel/components/SheetsSettings.ts` once your Pages URL is live.
+A hosted step-by-step guide (with a one-click download of `Code.gs`) lives at **https://drdennisprice.github.io/TaskMate/** — see [`docs/index.html`](docs/index.html). It's also linked from the ⚙ settings panel inside the extension.
 
 ### Recommended: Apps Script Web App
 

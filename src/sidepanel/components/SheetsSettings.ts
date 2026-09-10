@@ -50,7 +50,7 @@ export function openSheetsSettings(onClose?: () => void): void {
   sheetNameInput.placeholder = 'TimeLog';
   sheetNameBody.appendChild(sheetNameInput);
 
-  const SETUP_GUIDE_URL = 'https://REPLACE_WITH_YOUR_GITHUB_USERNAME.github.io/TaskMate/';
+  const SETUP_GUIDE_URL = 'https://drdennisprice.github.io/TaskMate/';
 
   const help = document.createElement('details');
   help.className = 'sheets-settings__help';
