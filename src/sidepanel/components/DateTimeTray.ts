@@ -35,26 +35,26 @@ export function createDateTimeTray(
 
   const timeTracker = createTimeTrackerBar(getTasks, onTaskSelect);
 
-  const rail = document.createElement('div');
-  rail.className = 'datetime-tray__rail';
-  rail.title = 'Expand TaskMate';
+  const mini = document.createElement('div');
+  mini.className = 'datetime-tray__mini';
+  mini.title = 'Click to expand TaskMate';
 
-  const railDot = document.createElement('span');
-  railDot.className = 'datetime-tray__rail-dot';
+  const miniDot = document.createElement('span');
+  miniDot.className = 'datetime-tray__mini-dot';
 
-  const railTime = document.createElement('span');
-  railTime.className = 'datetime-tray__rail-time';
+  const miniLabel = document.createElement('span');
+  miniLabel.className = 'datetime-tray__mini-label';
 
-  rail.append(railDot, railTime);
+  mini.append(miniDot, miniLabel);
 
-  tray.append(headerRow, badge, timeTracker, rail);
+  tray.append(headerRow, badge, timeTracker, mini);
 
   let collapsed = collapse.collapsed;
 
   function applyCollapsed(): void {
     tray.classList.toggle('datetime-tray--collapsed', collapsed);
-    toggleBtn.textContent = collapsed ? '›' : '‹';
-    toggleBtn.title = collapsed ? 'Expand TaskMate' : 'Collapse to a small tab';
+    toggleBtn.textContent = collapsed ? '▸ Expand' : '◂ Collapse';
+    toggleBtn.title = collapsed ? 'Expand TaskMate' : 'Collapse to a slim bar';
   }
 
   applyCollapsed();
@@ -70,16 +70,18 @@ export function createDateTimeTray(
     toggle();
   });
 
-  rail.addEventListener('click', () => {
+  mini.addEventListener('click', () => {
     if (collapsed) toggle();
   });
 
-  async function tickRail(): Promise<void> {
+  async function tickMini(): Promise<void> {
     if (!collapsed) return;
     const tracker = await loadTimeTracker();
-    railDot.className = `datetime-tray__rail-dot datetime-tray__rail-dot--${tracker.status}`;
-    railTime.textContent =
-      tracker.status === 'idle' ? '' : formatElapsed(getRunningElapsedMs(tracker));
+    miniDot.className = `datetime-tray__mini-dot datetime-tray__mini-dot--${tracker.status}`;
+    miniLabel.textContent =
+      tracker.status === 'idle'
+        ? 'Not tracking'
+        : `${tracker.status === 'running' ? 'Running' : 'Paused'} · ${tracker.taskTitle || '—'} · ${formatElapsed(getRunningElapsedMs(tracker))}`;
   }
 
   function tick(): void {
@@ -91,7 +93,7 @@ export function createDateTimeTray(
     } else {
       badge.hidden = true;
     }
-    tickRail();
+    tickMini();
   }
 
   tick();

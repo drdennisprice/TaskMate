@@ -649,12 +649,6 @@ body {
 }
 
 /* Collapsible side panel */
-#app.app--collapsed {
-  width: 40px;
-  min-width: 40px;
-  overflow: hidden;
-}
-
 #app.app--collapsed .toolbar,
 #app.app--collapsed .filters,
 #app.app--collapsed .task-lists {
@@ -665,7 +659,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6px;
+  gap: 8px;
 }
 
 .datetime-tray__datetime {
@@ -674,47 +668,42 @@ body {
 
 .datetime-tray__collapse {
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  padding: 0;
-  border: 1px solid color-mix(in srgb, var(--tray-text) 30%, transparent);
-  border-radius: 4px;
-  background: transparent;
-  color: var(--tray-text);
-  font-size: 13px;
-  line-height: 1;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 5px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.4;
   cursor: pointer;
+  white-space: nowrap;
 }
 
-.datetime-tray--collapsed {
-  width: 40px;
-  padding: 8px 4px;
+.datetime-tray__collapse:hover {
+  filter: brightness(1.1);
 }
 
-.datetime-tray--collapsed .datetime-tray__header {
-  justify-content: center;
-}
-
-.datetime-tray--collapsed .datetime-tray__datetime,
 .datetime-tray--collapsed .datetime-tray__badge,
 .datetime-tray--collapsed .time-tracker {
   display: none;
 }
 
-.datetime-tray__rail {
+.datetime-tray__mini {
   display: none;
-  flex-direction: column;
   align-items: center;
-  gap: 6px;
-  padding-top: 10px;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid color-mix(in srgb, var(--tray-text) 20%, transparent);
   cursor: pointer;
 }
 
-.datetime-tray--collapsed .datetime-tray__rail {
+.datetime-tray--collapsed .datetime-tray__mini {
   display: flex;
 }
 
-.datetime-tray__rail-dot {
+.datetime-tray__mini-dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
@@ -722,20 +711,20 @@ body {
   flex-shrink: 0;
 }
 
-.datetime-tray__rail-dot--running {
+.datetime-tray__mini-dot--running {
   background: #16a34a;
   box-shadow: 0 0 0 3px color-mix(in srgb, #16a34a 30%, transparent);
 }
 
-.datetime-tray__rail-dot--paused {
+.datetime-tray__mini-dot--paused {
   background: #ca8a04;
   box-shadow: 0 0 0 3px color-mix(in srgb, #ca8a04 30%, transparent);
 }
 
-.datetime-tray__rail-time {
-  font-size: 9px;
+.datetime-tray__mini-label {
+  font-size: 11px;
   color: var(--tray-text);
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
