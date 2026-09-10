@@ -1,0 +1,16 @@
+{
+  "name": "taskmate",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/build.mjs --watch",
+    "build": "tsc && node scripts/build.mjs",
+    "icons": "node scripts/generate-icons.mjs"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.287",
+    "esbuild": "^0.24.2",
+    "typescript": "^5.7.2"
+  }
+}

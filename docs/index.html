@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TaskMate — Google Sheets Time Log Setup</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --text: #0f172a;
+    --text-muted: #475569;
+    --accent: #6366f1;
+    --tray-bg: #1e293b;
+    --tray-text: #f1f5f9;
+    --code-bg: #0f172a;
+    --code-text: #e2e8f0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --border: #334155;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+  }
+  header {
+    background: var(--tray-bg);
+    color: var(--tray-text);
+    padding: 40px 20px 32px;
+  }
+  header .wrap { max-width: 780px; margin: 0 auto; }
+  header h1 { margin: 0 0 6px; font-size: 26px; }
+  header p { margin: 0; color: #cbd5e1; font-size: 15px; }
+  main { max-width: 780px; margin: 0 auto; padding: 28px 20px 60px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin-bottom: 20px;
+  }
+  h2 { font-size: 17px; margin: 0 0 10px; display: flex; align-items: center; gap: 8px; }
+  .step-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--accent); color: #fff; font-size: 12px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  p, li { color: var(--text-muted); font-size: 14px; }
+  code {
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    color: var(--text);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+  a { color: var(--accent); }
+  .btn {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 9px 16px;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .btn:hover { opacity: 0.9; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+  th { color: var(--text-muted); font-weight: 600; }
+  .note {
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    border-left: 3px solid var(--accent);
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="badge">TaskMate</div>
+      <h1>Google Sheets Time Log — Setup Guide</h1>
+      <p>Connect the TaskMate side panel's time tracker to a Google Sheet in about five minutes. No coding required.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2><span class="step-num">1</span> Create a Google Sheet</h2>
+      <p>Open <a href="https://sheets.new" target="_blank" rel="noopener">sheets.new</a> to create a blank spreadsheet. Give it any name, e.g. "TaskMate Time Log".</p>
+    </div>
+
+    <div class="card">
+      <h2><span class="step-num">2</span> Add the Apps Script</h2>
+      <p>In the spreadsheet, go to <strong>Extensions → Apps Script</strong>. Delete the placeholder code in <code>Code.gs</code> and paste in the full script below.</p>
+      <a class="btn" href="./Code.gs" download="Code.gs">Download Code.gs</a>
+      <p style="margin-top:10px;">Then save the project (<code>Ctrl/Cmd + S</code>).</p>
+    </div>
+
+    <div class="card">
+      <h2><span class="step-num">3</span> Run setup once</h2>
+      <p>In the Apps Script editor, select the function <code>setupAllSheets</code> from the dropdown at the top and click <strong>Run</strong>. The first run will ask you to authorize access to your own spreadsheet — this is expected, approve it.</p>
+      <p>This creates three tabs: <strong>TimeLog</strong> (raw events), <strong>Sessions</strong> (one row per completed session), and <strong>Report</strong> (generated summaries).</p>
+    </div>
+
+    <div class="card">
+      <h2><span class="step-num">4</span> Deploy as a Web App</h2>
+      <p>Click <strong>Deploy → New deployment</strong>, choose type <strong>Web app</strong>, then set:</p>
+      <table>
+        <tr><th>Execute as</th><td>Me</td></tr>
+        <tr><th>Who has access</th><td>Anyone</td></tr>
+      </table>
+      <p>Click <strong>Deploy</strong>, authorize again if prompted, then copy the <strong>Web app URL</strong> it gives you.</p>
+      <div class="note">The "Anyone" access setting only allows requests carrying your private deployment URL to write to <em>this</em> sheet — it does not make the sheet itself public. Keep the URL private, same as a password.</div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step-num">5</span> Paste the URL into TaskMate</h2>
+      <p>Open the TaskMate side panel, click the <strong>⚙</strong> icon in the time tracker bar, paste the Web App URL into <strong>Apps Script Web App URL</strong>, and click <strong>Save</strong>.</p>
+      <p>Reload the spreadsheet tab in your browser — a <strong>TaskMate</strong> menu will appear next to Help.</p>
+    </div>
+
+    <div class="card">
+      <h2>Using the reports</h2>
+      <p>From the spreadsheet menu, <strong>TaskMate → Reporting</strong> gives you This week / Last week / This month / Last month / Custom range summaries, each with:</p>
+      <ul>
+        <li>Totals by task (sessions, hours as h:mm and decimal, % of total)</li>
+        <li>A grand total row</li>
+        <li>Session-level detail for audit</li>
+      </ul>
+      <p><strong>TaskMate → Refresh Sessions tab</strong> rebuilds the Sessions sheet from TimeLog if it ever gets out of sync.</p>
+      <div class="note">Totals are calculated from <strong>Stop</strong> rows only — column E (Elapsed minutes) already excludes paused time.</div>
+    </div>
+
+    <div class="card">
+      <h2>Set your spreadsheet's time zone</h2>
+      <p>Go to <strong>File → Settings → Time zone</strong> in the spreadsheet and set it to your local zone, so weekly/monthly report boundaries line up correctly.</p>
+    </div>
+
+    <div class="card">
+      <h2>Troubleshooting</h2>
+      <ul>
+        <li><strong>Nothing appears in TimeLog</strong> — re-check the Web App URL was pasted in full, including <code>/exec</code> at the end.</li>
+        <li><strong>Authorization required again</strong> — Apps Script occasionally asks you to re-authorize after edits to the script; just approve it and redeploy if needed.</li>
+        <li><strong>Want to change the script later</strong> — edit <code>Code.gs</code> in the Apps Script editor directly, save, then create a <em>new</em> deployment version (Deploy → Manage deployments → Edit → New version) so the change takes effect.</li>
+      </ul>
+    </div>
+  </main>
+</body>
+</html>
