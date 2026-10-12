@@ -15,6 +15,7 @@ import {
 } from '../../lib/time-tracker-logic';
 import type { TimeLogEntry, TimeTrackerState } from '../../lib/time-tracker-types';
 import { getRunningElapsedMs } from '../../lib/time-tracker-types';
+import { confirmDialog } from './ConfirmDialog';
 import { openReopenReminder, openStopAndCloseConfirm } from './ReopenReminder';
 import { openSheetsSettings } from './SheetsSettings';
 
@@ -255,13 +256,12 @@ export function createTimeTrackerBar(
   stopBtn.addEventListener('click', async () => {
     try {
       if (tracker.status === 'idle') return;
-      if (
-        !confirm(
-          `Stop and log ${formatElapsed(getRunningElapsedMs(tracker))} to your sheet?\n\nTask: ${tracker.taskTitle}`
-        )
-      ) {
-        return;
-      }
+      const ok = await confirmDialog(
+        `Stop and log ${formatElapsed(getRunningElapsedMs(tracker))} to your sheet?\n\nTask: ${tracker.taskTitle}`,
+        'Stop & log',
+        false
+      );
+      if (!ok) return;
       await stopSession();
     } catch (err) {
       showFeedback(err instanceof Error ? err.message : 'Stop failed', true);

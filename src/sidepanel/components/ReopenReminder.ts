@@ -1,4 +1,5 @@
 import { formatElapsed } from '../../lib/datetime';
+import { confirmDialog } from './ConfirmDialog';
 import type { TimeTrackerState } from '../../lib/time-tracker-types';
 
 export function openReopenReminder(
@@ -39,14 +40,13 @@ export function openReopenReminder(
   stopBtn.type = 'button';
   stopBtn.className = 'btn btn--danger';
   stopBtn.textContent = 'Stop session';
-  stopBtn.addEventListener('click', () => {
-    if (
-      !confirm(
-        `Stop and log ${elapsedLabel} to your sheet?\n\nTask: ${tracker.taskTitle}`
-      )
-    ) {
-      return;
-    }
+  stopBtn.addEventListener('click', async () => {
+    const ok = await confirmDialog(
+      `Stop and log ${elapsedLabel} to your sheet?\n\nTask: ${tracker.taskTitle}`,
+      'Stop & log',
+      false
+    );
+    if (!ok) return;
     overlay.remove();
     onStop();
   });
@@ -64,12 +64,11 @@ export function openStopAndCloseConfirm(
   const elapsed = formatElapsed(
     tracker.pausedAtElapsedMs ?? tracker.accumulatedMs
   );
-  if (
-    !confirm(
-      `Stop session and log ${elapsed} to your sheet?\n\nTask: ${tracker.taskTitle}\n\nYou can close the panel safely after stopping.`
-    )
-  ) {
-    return;
-  }
-  onConfirm();
+  void confirmDialog(
+    `Stop session and log ${elapsed} to your sheet?\n\nTask: ${tracker.taskTitle}\n\nYou can close the panel safely after stopping.`,
+    'Stop & log',
+    false
+  ).then((ok) => {
+    if (ok) onConfirm();
+  });
 }

@@ -4,6 +4,7 @@ import {
   updateCategory,
 } from '../../lib/storage';
 import type { Category } from '../../lib/types';
+import { confirmDialog } from './ConfirmDialog';
 
 const PRESET_COLORS = [
   '#6366f1', '#3b82f6', '#10b981', '#f97316',
@@ -127,7 +128,7 @@ export function openCategoryManager(
     deleteBtn.className = 'btn btn--danger';
     deleteBtn.textContent = 'Delete';
     deleteBtn.addEventListener('click', async () => {
-      if (!confirm(`Delete category "${category.name}"? Tasks will move to another category.`)) return;
+      if (!(await confirmDialog(`Delete category "${category.name}"? Tasks will move to another category.`, 'Delete'))) return;
       await deleteCategory(category.id);
       close();
     });

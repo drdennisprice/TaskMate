@@ -1,6 +1,7 @@
 import { deleteTask, updateTask } from '../../lib/storage';
 import type { Category, Priority, Task } from '../../lib/types';
 import { createDatePickerField } from './DatePickerField';
+import { confirmDialog } from './ConfirmDialog';
 
 function createField(labelText: string): { field: HTMLElement; body: HTMLElement } {
   const field = document.createElement('div');
@@ -82,7 +83,7 @@ export function openTaskEditor(
   deleteBtn.className = 'btn btn--danger';
   deleteBtn.textContent = 'Delete';
   deleteBtn.addEventListener('click', async () => {
-    if (!confirm('Delete this task?')) return;
+    if (!(await confirmDialog('Delete this task?', 'Delete'))) return;
     await deleteTask(task.id);
     close();
   });
